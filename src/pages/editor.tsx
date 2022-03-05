@@ -2,10 +2,18 @@ import * as React from "react";
 import styled from "styled-components";
 import { useStateWithStorage } from "../hooks/use_state_with_storage";
 import * as ReactMarkdown from "react-markdown";
+import { putMemo } from "../indexeddb/memos";
+import { Button } from "../components/button";
+import { SaveModal } from "../components/save_modal";
+
+const { useState } = React;
 
 const Header = styled.header`
+  align-content: center;
+  display: flex;
   font-size: 1.5rem;
   height: 2rem;
+  justify-content: space-between;
   left: 0;
   line-height: 2rem;
   padding: 0.5rem 1rem;
@@ -20,6 +28,12 @@ const Wrapper = styled.div`
   position: fixed;
   right: 0;
   top: 3rem;
+`;
+
+const HeaderControl = styled.div`
+  height: 2rem;
+  display: flex;
+  align-content: center;
 `;
 
 const TextArea = styled.textarea`
@@ -45,14 +59,21 @@ const Preview = styled.div`
   width: 50vw;
 `;
 
-const StorageKey = 'pages/editor:text'
+const StorageKey = "pages/editor:text";
 
 export const Editor: React.FC = () => {
-  const [text, setText] = useStateWithStorage('', StorageKey)
+  const [text, setText] = useStateWithStorage("", StorageKey);
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <Header>Markdown Editor</Header>
+      <Header>
+        Markdown Editor
+        <HeaderControl>
+          <Button onClick={() => setShowModal(true)}>保存する</Button>
+        </HeaderControl>
+      </Header>
       <Wrapper>
         <TextArea
           onChange={(event) => setText(event.target.value)}
@@ -62,6 +83,15 @@ export const Editor: React.FC = () => {
           <ReactMarkdown>{text}</ReactMarkdown>
         </Preview>
       </Wrapper>
+      {showModal && (
+        <SaveModal
+          onSave={(title: string): void => {
+            putMemo(title, text);
+            setShowModal(false);
+          }}
+          onCancel={() => setShowModal(false)}
+        />
+      )}
     </>
   );
 };
