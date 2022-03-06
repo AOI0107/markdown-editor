@@ -2,6 +2,9 @@ import * as React from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Header } from "../components/header";
+import { getMemos, MemoRecord } from "../indexeddb/memos";
+
+const { useState, useEffect } = React
 
 const HeaderArea = styled.div`
   position: fixed;
@@ -20,6 +23,12 @@ const Wrapper = styled.div`
 `;
 
 export const History: React.FC = () => {
+  const [memos, setMemos] = useState<MemoRecord[]>([])
+  console.log(memos)
+
+  useEffect(()  => {
+    getMemos().then(setMemos)
+  }, [])
   return (
     <>
       <HeaderArea>
