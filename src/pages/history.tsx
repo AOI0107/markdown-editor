@@ -54,6 +54,7 @@ const Paging = styled.div`
   right: 0;
   text-align: center;
 `;
+
 const PagingButton = styled.div`
   background: none;
   border: none;
@@ -91,6 +92,7 @@ export const History: React.FC<Props> = (props) => {
     setPage(targetPage);
     getMemos(targetPage).then(setMemos);
   };
+
   return (
     <>
       <HeaderArea>

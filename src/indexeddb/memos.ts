@@ -24,7 +24,7 @@ export const getMemoPageCount = async (): Promise<number> => {
 };
 
 export const getMemos = (page: number): Promise<MemoRecord[]> => {
-  const offset = (page - 1) * NUM_PER_PAGE
+  const offset = (page - 1) * NUM_PER_PAGE;
   return memos
     .orderBy("datetime")
     .reverse()
