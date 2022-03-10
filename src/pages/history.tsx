@@ -2,15 +2,16 @@ import * as React from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { Header } from "../components/header";
+import { useState } from "react";
 import { getMemoPageCount, getMemos, MemoRecord } from "../indexeddb/memos";
 
-const { useState, useEffect } = React;
+const { useEffect } = React;
 
 const HeaderArea = styled.div`
   position: fixed;
   right: 0;
   top: 0;
-  bottom: 0;
+  left: 0;
 `;
 
 const Wrapper = styled.div`
@@ -32,6 +33,7 @@ const Memo = styled.button`
   margin: 1rem 0;
   text-align: left;
 `;
+
 const MemoTitle = styled.div`
   font-size: 1rem;
   margin-bottom: 0.5rem;
@@ -55,13 +57,12 @@ const Paging = styled.div`
   text-align: center;
 `;
 
-const PagingButton = styled.div`
+const PagingButton = styled.button`
   background: none;
   border: none;
   display: inline-block;
   height: 2rem;
   padding: 0.5rem 1rem;
-
   &:disabled {
     color: silver;
   }
